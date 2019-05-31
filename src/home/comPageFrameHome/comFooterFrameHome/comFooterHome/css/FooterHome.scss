@@ -1,0 +1,12 @@
+.footerhome {
+	width: 100%;
+	display: flex;
+	flex-wrap:wrap;
+	justify-content: space-around;
+	text-align: center;
+	font-size: 1em;
+	.column {
+		display: flex;
+		flex-direction: column;		
+	}
+}
