@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import './font/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/HomePage.scss';
 
@@ -15,7 +16,46 @@ class HomePage extends Component {
 			listMessages: [],
 			inputMessage: '',
 			username: '',
-			recepient: ''			
+			recipient: ''			
+		}
+		this.usernameSeted = false;	
+		this.webSocketConnected = false;		
+	}
+
+	set usernameSeted(val1) {
+		this._usernameSeted = val1;
+		this.commonListener(val1)(this.webSocketConnected);
+	}
+
+	get usernameSeted() {
+		return this._usernameSeted;
+	}
+
+	set webSocketConnected(val2) {
+		this._webSocketConnected = val2;
+		this.commonListener(this.usernameSeted)(val2);
+	}
+
+	get webSocketConnected() {
+		return this._webSocketConnected;
+	}
+
+	commonListener = (val1) => (val2) => {}
+
+	registerCommonListener = (listener) => {
+		this.commonListener = listener;
+	}
+
+	handleFirstSend = (usernameSeted) => (webSocketConnected) => {
+		
+		if(usernameSeted && webSocketConnected) {
+			//send via websocket the first payload
+			const payload = {
+				first: true, 
+				username: this.state.username			
+			};
+
+	        this.websocketClient.send(JSON.stringify(payload)); 
 		}
 	}
 
@@ -27,47 +67,52 @@ class HomePage extends Component {
 		this.setState({recipient: event.target.value});
 	}
 
-	onSendSumit = (event) => {
-		const {inputMessage} = this.state;
-		fetch('https://192.168.0.108:3000/send/message',{
-			method: 'post',
-			headers: {'Content-type':'application/json'},
-			body: {
-				inputMessage
-			}
-		})
-		.then(response =>  response.json())
-		.then(result => {
-			if(result.data) {
-				this.setState((prevState) => ({
-					listMessages:[
-						...prevState.listMessages,
-						prevState.inputMessage
-					]
-				}));
-			} else {
-				alert('Problem getting data from server');
-			}
-		})
+	onSendSubmit = (event) => {
+		console.log("sendBtn Pressed");
+		const {inputMessage, username, recipient} = this.state;
+		
+		const payload = {
+			inputMessage, 
+			username, 
+			recipient
+		};
+
+		//Send the message to the BE
+        if (this.websocketClient.readyState === 
+        	this.websocketClient.OPEN) {      
+            this.websocketClient.send(JSON.stringify(payload)); 
+        }   		
 	}
 
-	componentDidMount = () => {
-		const username = prompt('Enter your username: ');
+	onWebsocketOpen = () => {
+		this.webSocketConnected = true;
+	    console.log('WebSocket Client Connected1');	    
+	};
 
+	componentDidMount = () => {
+		this.registerCommonListener(this.handleFirstSend);
+		this.websocketClient = this.props.makeWebScoketConnection();
+		this.websocketClient.onopen = this.onWebsocketOpen;		
+		// console.log('componentDidMount this.props',this.props);
+		
+		const username = prompt('Enter your username: ');
+	
+		// console.log('componentDidMount payload',payload);
 		if (username != null) {
-			this.setState({username: username});    
+			this.setState({username: username},()=>{
+				this.usernameSeted = true;
+			});						
 		}
 	}
 
 	render() {
 		// console.log(this.state.boundingBoxes);
+		const {listMessages,username} = this.state;
 		const {
-			listMessages,
-			username,
 			onRecipientChange,
-			onMessageChange,			
+			onMessageChange,
 			onSendSubmit
-		} = this.state;
+		} = this;
 
 		return (		
 	  	<div className='homepage'>
@@ -75,7 +120,7 @@ class HomePage extends Component {
 			<UserName username={username}/>
 			<Recipient onRecipientChange={onRecipientChange}/>
 			<Input onMessageChange={onMessageChange}/>
-			<SendButton onSendSumit={onSendSubmit}/>
+			<SendButton onSendSubmit={onSendSubmit}/>
 		</div>
 	    );
 	}
