@@ -16,7 +16,7 @@ class Output extends Component {
 			<div className='output'>
 				{
 					listMessages.map(message => {
-						return <Message key={message.id} message={message.content}/>
+						return <Message key={message.id} sender={message.sender} message={message.content}/>
 					})
 				}
 			</div>

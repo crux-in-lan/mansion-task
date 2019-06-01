@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import clone from 'clone';
 import './font/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/HomePage.scss';
 
@@ -84,6 +84,22 @@ class HomePage extends Component {
         }   		
 	}
 
+	onWebscoketMessage = (e) => {
+	    if (typeof e.data === 'string') {
+	        console.log("Received: '" + e.data + "'");
+	        const payload = JSON.parse(e.data);
+	        console.log('PayLoad Message: ', payload.message);
+	        
+	        this.setState((prevState) => (
+	        	{
+	        		listMessages: [...prevState.listMessages, payload.message]
+	        	}
+	        ),() => {
+	        	console.log('List Messages: ',this.state.listMessages);
+	        });
+	    }
+	  };
+
 	onWebsocketOpen = () => {
 		this.webSocketConnected = true;
 	    console.log('WebSocket Client Connected1');	    
@@ -93,6 +109,8 @@ class HomePage extends Component {
 		this.registerCommonListener(this.handleFirstSend);
 		this.websocketClient = this.props.makeWebScoketConnection();
 		this.websocketClient.onopen = this.onWebsocketOpen;		
+		this.websocketClient.onmessage = this.onWebscoketMessage;
+
 		// console.log('componentDidMount this.props',this.props);
 		
 		const username = prompt('Enter your username: ');

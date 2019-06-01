@@ -29,8 +29,7 @@ class App extends Component {
     this.client = new W3CWebSocket('ws://192.168.0.108:8080/', 'echo-protocol');
     this.client.onerror = this.onWebsocketError;    
     this.client.onclose = this.onWebsocketClose;
-    this.client.onmessage = this.onWebscoketMessage;
-
+    
     return this.client;
   }
 
@@ -42,13 +41,8 @@ class App extends Component {
  
   onWebsocketClose = () => {
     console.log('echo-protocol Client Closed');
-  };
- 
-  onWebscoketMessage = (e) => {
-    if (typeof e.data === 'string') {
-        console.log("Received: '" + e.data + "'");
-    }
-  };
+  }; 
+  
   render() {
         return (
           <PageFrameHome>

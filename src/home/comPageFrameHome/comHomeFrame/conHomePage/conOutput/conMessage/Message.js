@@ -8,10 +8,11 @@ class Message extends Component {
 		}
 	}
 	render() {
-		const {message} = this.props;
+		const {message,sender} = this.props;
 		
 		return (
 			<div className='message'>
+				<div>Sender: {sender}</div>
 				{message}
 			</div>
 		)
