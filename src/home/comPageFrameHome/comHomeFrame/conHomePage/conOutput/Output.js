@@ -11,7 +11,7 @@ class Output extends Component {
 		}
 	}
 	render() {
-		const {listMessages} = this.props;	
+		const {listMessages, seenInlineStyle} = this.props;	
 		return (
 			<div className='output'>
 				{
@@ -19,6 +19,7 @@ class Output extends Component {
 						return <Message key={message.id} sender={message.sender} message={message.content}/>
 					})
 				}
+				<div style={seenInlineStyle} className='seen'>Seen</div>
 			</div>
 		)
 	}

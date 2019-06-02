@@ -8,6 +8,7 @@ import UserName from './conUserName/UserName';
 import Recipient from './conRecipient/Recipient';
 import Input from './conInput/Input';
 import SendButton from './conSendButton/SendButton';
+import SendAllButton from './conSendAllButton/SendAllButton';
 
 class HomePage extends Component {
 	constructor(props) {
@@ -16,7 +17,10 @@ class HomePage extends Component {
 			listMessages: [],
 			inputMessage: '',
 			username: '',
-			recipient: ''			
+			recipient: '',
+			seenInlineStyle: {
+				display: "none"
+			}			
 		}
 		this.usernameSeted = false;	
 		this.webSocketConnected = false;		
@@ -51,7 +55,7 @@ class HomePage extends Component {
 		if(usernameSeted && webSocketConnected) {
 			//send via websocket the first payload
 			const payload = {
-				first: true, 
+				command: 'first', 
 				username: this.state.username			
 			};
 
@@ -72,9 +76,42 @@ class HomePage extends Component {
 		const {inputMessage, username, recipient} = this.state;
 		
 		const payload = {
+			command: 'send',
 			inputMessage, 
 			username, 
 			recipient
+		};
+
+		//Send the message to the BE
+        if (this.websocketClient.readyState === 
+        	this.websocketClient.OPEN) {      
+            this.websocketClient.send(JSON.stringify(payload));
+            this.setState((prevState) => ({
+    			seenInlineStyle: {
+    				...prevState.seenInlineStyle,
+    				display: "none"
+    			},
+    			listMessages: [
+    			...prevState.listMessages,
+    			 	{
+	    				id: Math.floor(Math.random() * 100000000) + 1,
+	        			sender: "Me",
+	        			content: prevState.inputMessage
+	    			}
+    			 ]
+    		})); 
+        }   		
+	}
+
+	onSendAllSubmit = (event) => {
+		console.log("sendAllBtn Pressed");
+		const {inputMessage, username, recipient} = this.state;
+		
+		const payload = {
+			command: 'sendAll',
+			inputMessage, 
+			username,
+			recipient: 'all'
 		};
 
 		//Send the message to the BE
@@ -88,15 +125,43 @@ class HomePage extends Component {
 	    if (typeof e.data === 'string') {
 	        console.log("Received: '" + e.data + "'");
 	        const payload = JSON.parse(e.data);
-	        console.log('PayLoad Message: ', payload.message);
+
+	        switch(payload.command)
+	        {
+	        	case 'send':
+	        		console.log('PayLoad Message: ', payload.message);
 	        
-	        this.setState((prevState) => (
-	        	{
-	        		listMessages: [...prevState.listMessages, payload.message]
-	        	}
-	        ),() => {
-	        	console.log('List Messages: ',this.state.listMessages);
-	        });
+			        this.setState((prevState) => (
+			        	{
+			        		listMessages: [...prevState.listMessages, payload.message]
+			        	}
+			        ),() => {
+			        	console.log('List Messages: ',this.state.listMessages);
+			        	//send "seen" flag
+			        	const {listMessages} = this.state;
+			        	const {sender} = listMessages[listMessages.length - 1];
+				
+						const payload = {
+							command: 'sendReceipt',					
+							recipient: sender
+						};
+
+						//Send the "Seen" notification to the BE
+				        if (this.websocketClient.readyState === 
+				        	this.websocketClient.OPEN) {      
+				            this.websocketClient.send(JSON.stringify(payload)); 
+				        }   
+			        });
+	        	break;
+	        	case 'seen':
+	        		this.setState((prevState) => ({
+	        			seenInlineStyle: {
+	        				...prevState.seenInlineStyle,
+	        				display: "block"
+	        			}
+	        		}));
+	        	break;
+	        }	        
 	    }
 	  };
 
@@ -125,20 +190,27 @@ class HomePage extends Component {
 
 	render() {
 		// console.log(this.state.boundingBoxes);
-		const {listMessages,username} = this.state;
+		const {
+			listMessages,
+		 	username,
+		 	seenInlineStyle
+		 } = this.state;
+
 		const {
 			onRecipientChange,
 			onMessageChange,
-			onSendSubmit
+			onSendSubmit,
+			onSendAllSubmit			
 		} = this;
 
 		return (		
 	  	<div className='homepage'>
-			<Output listMessages={listMessages}/>
+			<Output listMessages={listMessages} seenInlineStyle={seenInlineStyle}/>
 			<UserName username={username}/>
 			<Recipient onRecipientChange={onRecipientChange}/>
 			<Input onMessageChange={onMessageChange}/>
 			<SendButton onSendSubmit={onSendSubmit}/>
+			<SendAllButton onSendAllSubmit={onSendAllSubmit}/>			
 		</div>
 	    );
 	}
