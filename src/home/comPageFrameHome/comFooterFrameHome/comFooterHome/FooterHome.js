@@ -14,8 +14,8 @@ const Footer = (props) => {
 			</div>
 			<div className='column'>
 				<h4>gitHub Repo:</h4>
-				<a href='https://github.com/crux-in-lan/face-detect-app'>Front End</a>
-				<a href='https://github.com/crux-in-lan/face-detect-app-api'>Back End</a>				
+				<a href='https://github.com/crux-in-lan/mansion-task'>Front End</a>
+				<a href='https://github.com/crux-in-lan/mansion-task-api'>Back End</a>				
 			</div>
 		</div>
 	)

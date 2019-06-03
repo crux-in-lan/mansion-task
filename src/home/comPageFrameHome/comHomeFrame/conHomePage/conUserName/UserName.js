@@ -11,7 +11,7 @@ class UserName extends Component {
 		const {username} = this.props;
 		return (
 			<div className="username">
-				{username}
+				From: {username}
 			</div>
 		)
 	}

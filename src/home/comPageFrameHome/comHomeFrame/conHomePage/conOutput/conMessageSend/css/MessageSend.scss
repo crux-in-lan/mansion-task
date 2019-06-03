@@ -1,0 +1,24 @@
+.messagesend {
+    margin-bottom: 30px;
+    width: 90%;
+    float: right;
+    > .sender {
+        margin-bottom: 8px;
+        padding: 0 15px;
+        color: #444;
+        font-family: Verdana,Geneva,sans-serif;
+        font-size: 12px;
+    }
+    > .message {
+        padding: 15px;
+        background: #E3EBF0;
+        border-radius: 10px 0 10px 10px;
+        font-size: 14px;
+        font-family: Verdana,Geneva,sans-serif;
+        color: #333333;
+        cursor: default;
+        line-height: 19px;
+        word-break: break-word;
+        overflow: hidden;
+    }   
+}

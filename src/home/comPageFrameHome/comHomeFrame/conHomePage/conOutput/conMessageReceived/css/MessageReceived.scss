@@ -1,0 +1,25 @@
+.messagereceived {
+    margin-bottom: 30px;
+    width: 90%;
+    float: left;
+    > .sender {
+        text-decoration: none;
+        margin-bottom: 8px;
+        padding: 0 15px;
+        color: #3b6fb6;
+        font-family: Verdana,Geneva,sans-serif;
+        font-size: 12px;
+    }
+    > .message {
+        padding: 15px;
+        background: #3b6fb6;
+        border-radius: 0 10px 10px 10px;
+        font-size: 14px;
+        font-family: Verdana,Geneva,sans-serif;
+        color: #FFF;
+        cursor: default;
+        line-height: 19px;
+        word-break: break-word;
+        overflow: hidden;
+    }   
+}

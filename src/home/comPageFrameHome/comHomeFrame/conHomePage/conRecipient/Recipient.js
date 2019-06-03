@@ -12,7 +12,7 @@ class Recipient extends Component {
 	
 		return (
 			<div className='recipient'>
-				<input type="text" onChange={onRecipientChange}/>
+				To: <input type="text" onChange={onRecipientChange}/>
 			</div>
 		)
 	}

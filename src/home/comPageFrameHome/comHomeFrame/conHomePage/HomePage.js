@@ -206,11 +206,15 @@ class HomePage extends Component {
 		return (		
 	  	<div className='homepage'>
 			<Output listMessages={listMessages} seenInlineStyle={seenInlineStyle}/>
-			<UserName username={username}/>
-			<Recipient onRecipientChange={onRecipientChange}/>
-			<Input onMessageChange={onMessageChange}/>
-			<SendButton onSendSubmit={onSendSubmit}/>
-			<SendAllButton onSendAllSubmit={onSendAllSubmit}/>			
+			<div className='inputform'>
+				<UserName username={username}/>
+				<Recipient onRecipientChange={onRecipientChange}/>
+				<Input onMessageChange={onMessageChange}/>
+				<div className='sendbuttons'>
+					<SendButton onSendSubmit={onSendSubmit}/>
+					<SendAllButton onSendAllSubmit={onSendAllSubmit}/>			
+				</div>
+			</div>
 		</div>
 	    );
 	}

@@ -1,0 +1,21 @@
+.sendallbutton {
+	> input {
+		margin-left: 0.5vw;
+		margin-right: 0.5vw;
+		padding: 0 10px;
+	    background: #3b6fb6;
+	    border-radius: .5vw;
+	    line-height: 2.5vh;	        
+	    text-decoration: none;
+	    font-weight: bold;
+	    color: #FFF;
+	    font-size: 15px;
+	    border: none;
+	    text-align: center;	   
+	    width: 10vw;
+	}
+	> input:hover {
+		cursor: pointer;
+		color: pink;
+	}
+}

@@ -3,9 +3,9 @@ import './css/ToolTip.css';
 
 const ToolTip = (props) => {
 	return (
-		<div class="tooltip">
+		<div className="tooltip">
 			{props.children}
-			<span class="tooltiptext">{props.comment}</span>
+			<span className="tooltiptext">{props.comment}</span>
 		</div>
 	)
 }

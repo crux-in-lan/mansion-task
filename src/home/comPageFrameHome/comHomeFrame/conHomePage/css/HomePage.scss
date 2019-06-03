@@ -1,92 +1,33 @@
 .homepage {
-  width: 100%;
-  height: 100%;
+  width: 50vw;
+  height: 70vh;
+  margin: 2.5vw;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   justify-content: space-around;
-  /*//////////////////////////////////////////////////////////////////
-  [ FONT ]*/
-
-
-  /*//////////////////////////////////////////////////////////////////
-  [ RESTYLE TAG ]*/
-
-  /*---------------------------------------------*/
   
-  > a:hover {
-    text-decoration: none;
-    color: #57b846;
-  }
-  /*---------------------------------------------*/
-  > input {
-    outline: none;
-    border: none;
-  }
-  /*---------------------------------------------*/
-  > button {
-    outline: none;
-    border: none;
-    background: transparent;
-  }
+  > .inputform {
+    float: right;
+    background: #E3EBF0;
+    width: 87.5vw;
+    border-radius: 10px 0 10px 10px;
+    margin: 0;
+    padding: 15px;
 
-  > button:hover {
-    cursor: pointer;
-  }
-  /*//////////////////////////////////////////////////////////////////
-  [ Utility ]*/
-
-  > .txt2 {
-    font-family: Poppins-Regular;
-    font-size: 0.9em;
-    line-height: 1.5;
-    color: #666666;
-    cursor: pointer;
-  }
-
-/*------------------------------------------------------------------
-[  ]*/
-> .login100-pic {
-  max-width: 50%;
-}
-
-> .login100-pic img {
-  max-width: 100%;
-}
-
-/*------------------------------------------------------------------
-[  ]*/
-> .login100-form {
-  max-width: 50%;
-}
-
-> .login100-form-title {
-  font-family: Poppins-Bold;
-  font-size: 2em;
-  color: #333333;
-  line-height: 1.2;
-  text-align: center;
-
-  width: 100%;
-  display: block;
-  padding-bottom: 1.8em;
-}
-
-/*------------------------------------------------------------------
-[ Responsive ]*/
-
-  /* Extra small devices (phones, 600px and down) */
-  @media only screen and (max-width: 600px) {
-    
-    flex-direction: column;
-    > .login100-form {
-      max-width: 100%;
+    > .sendbuttons {
+      display: flex;
+      flex-direction: row;
+      float: right;
     }
-    > .login100-pic {
-      max-width: 100%;
-    }
-    > .input100 {
-      width: 100%;
-    }
-  }
+  } 
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  // @media only screen and (min-width: 992px) {
+  //   // margin: 4.16vw;
+  // }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  // @media only screen and (min-width: 1200px) {
+  //   // margin: 2.08vw;
+  // }
 }
