@@ -26,10 +26,10 @@ class App extends Component {
 
   makeWebScoketConnection = () => {
     //websocket client
-    this.client = new W3CWebSocket('ws://192.168.0.108:8080/', 'echo-protocol');
+    this.client = new W3CWebSocket('ws://93.123.94.2:443/', 'echo-protocol');
     this.client.onerror = this.onWebsocketError;    
     this.client.onclose = this.onWebsocketClose;
-    
+
     return this.client;
   }
 
