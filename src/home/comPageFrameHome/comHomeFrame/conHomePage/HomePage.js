@@ -117,7 +117,22 @@ class HomePage extends Component {
 		//Send the message to the BE
         if (this.websocketClient.readyState === 
         	this.websocketClient.OPEN) {      
-            this.websocketClient.send(JSON.stringify(payload)); 
+            this.websocketClient.send(JSON.stringify(payload));
+
+            this.setState((prevState) => ({
+    			seenInlineStyle: {
+    				...prevState.seenInlineStyle,
+    				display: "none"
+    			},
+    			listMessages: [
+    			...prevState.listMessages,
+    			 	{
+	    				id: Math.floor(Math.random() * 100000000) + 1,
+	        			sender: "Me",
+	        			content: prevState.inputMessage
+	    			}
+    			 ]
+    		})); 
         }   		
 	}
 
